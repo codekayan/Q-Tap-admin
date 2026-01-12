@@ -1,0 +1,61 @@
+:root {
+    --mainColor: #E57C00;
+}
+
+/* .plan-list {
+  display: flex;
+  /* flex-direction: column; * /
+  gap: 12px;
+} */
+.plan-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.plan-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    height: 100%;
+    /* Ensures it fills grid cell */
+    min-height: 300px;
+    /* Optional: fix a min height */
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+    border: 2px solid transparent;
+    padding: 1rem;
+}
+.plan-custom-heading-name {
+  font-size: 1.125rem;       /* text-lg */
+  font-weight: 600;          /* font-semibold */
+  color: #1F2937;            /* text-gray-800 */
+}
+/* .plan-card {
+  border: 2px solid transparent;
+  padding: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  transition: border-color 0.2s, background 0.2s;
+} */
+
+.plan-card:hover {
+    background-color: #f1f1f1;
+}
+
+.plan-card.selected {
+    border-color: var(--mainColor);
+    background-color: #fffbea;
+}
+
+.plan-info h3 {
+    margin: 0;
+}
+
+.plan-info p,
+.dialog-features {
+    margin: 6px 0;
+}

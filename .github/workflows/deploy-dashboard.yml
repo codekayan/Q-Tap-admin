@@ -1,0 +1,104 @@
+name: Deploy Dashboard
+
+on:
+  push:
+    branches:
+      - main # ✅ deploy only when pushing to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🛠 Build project
+        run: CI=false npm run build
+
+      - name: 🔑 Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: |
+            -----BEGIN OPENSSH PRIVATE KEY-----
+            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
+            -----END OPENSSH PRIVATE KEY-----
+      - name: 🧩 Add server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 159.198.77.150 >> ~/.ssh/known_hosts
+
+      - name: 🚀 Deploy to server
+        run: |
+          tar -czf build.tar.gz build
+
+          scp build.tar.gz root@159.198.77.150:/tmp/
+
+          ssh root@159.198.77.150 << 'EOF'
+            set -e
+            SERVER_PATH="/var/www/Q-tap-Dashboard"
+            ARCHIVE_NAME="build.tar.gz"
+
+            rm -rf "$SERVER_PATH"/*
+            rm -rf "$SERVER_PATH"/.[!.]*
+            tar -xzf "/tmp/$ARCHIVE_NAME" -C "$SERVER_PATH"
+            rm "/tmp/$ARCHIVE_NAME"
+            mv "$SERVER_PATH/build" "$SERVER_PATH/dashboard"
+            sudo nginx -t
+            sudo systemctl reload nginx
+          EOF

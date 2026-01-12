@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #EBEDF3;
+  overflow-x: hidden !important;
+  font-family: 'Montserrat GE SS Two';
+
+}
+
+:root {
+  --mainColor: #E57C00;
+  --secondaryColor: #222240;
+  /* blue-500 */
+}
+
+code {
+  font-family: 'Montserrat GE SS Two';
+}
+
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: transparent  !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+/* Red (#FF0000 or #D32F2F) – The most universally recognized color for errors, signaling danger or urgency. */
+
+.error-color {
+  color: #FF0000
+}
+
+/* body.dark input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #121212 inset !important;
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff;
+}
+
+body.light input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #000 !important;
+  caret-color: #000;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  box-shadow: 0 0 0 1000px var(--bg-color) inset !important;
+  -webkit-text-fill-color: var(--text-color) !important;
+  caret-color: var(--text-color);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-color) inset !important;
+  -webkit-text-fill-color: var(--text-color) !important;
+  caret-color: var(--text-color);
+} */

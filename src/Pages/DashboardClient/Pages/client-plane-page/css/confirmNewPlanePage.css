@@ -1,0 +1,129 @@
+.checkout-panel {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.panel-content {
+    margin-bottom: 20px;
+}
+
+.plan-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.billing-cycle {
+    font-size: 0.9rem;
+    color: #555;
+    text-transform: capitalize;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    width: fit-content;
+    padding: 6px 14px;
+}
+
+.payment-label {
+    margin-top: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.payment-options {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.payment-option {
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.payment-option.selected {
+    border-color: var(--mainColor);
+    background-color: rgba(229, 124, 0, 0.1);
+    /* Light background for selection */
+}
+
+.upload-text {
+    margin-top: 14px;
+    font-style: italic;
+    color: #444;
+    font-size: 0.85rem;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.btn.cancel {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.btn.cancel:hover {
+    background-color: #e0e0e0;
+}
+
+.btn.confirm {
+    background-color: var(--mainColor);
+    color: #fff;
+}
+
+.btn.confirm:hover {
+    background-color: #cc6a00;
+}
+
+.upload-section {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.upload-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.upload-section input[type="file"] {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.image-preview {
+    margin-top: 10px;
+    width: 80px;
+    height: 80px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

@@ -1,0 +1,6 @@
+node_modules
+build
+.codegpt
+myDoc.md
+expectRes.json
+seedScript.js

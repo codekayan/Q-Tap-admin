@@ -1,0 +1,91 @@
+/* .flex {
+    display: flex;
+    gap: 2px;
+}
+
+.flex-col {
+    flex-direction: column;
+} */
+
+.flex-align-items {
+    align-items: center;
+
+}
+
+.mt-10 {
+    margin-top: 1rem;
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.plan-list {
+    width: full;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.plan-list-item {
+    padding: 6px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+
+
+.plan-custom-details {
+    margin-top: 0.5rem;
+    /* mt-2 */
+    font-size: 0.875rem;
+    /* text-sm */
+    color: #4B5563;
+    /* text-gray-600 */
+}
+
+/* .p-0 {
+    padding: 0px;
+}
+
+.m-0 {
+    margin: 0px;
+} */
+
+.plan-list-item:hover {
+    background-color: #f1f1f1;
+}
+
+.plan-list-item.selected {
+    border-color: var(--mainColor);
+    background-color: #fffbea;
+}
+
+.back-button-icon {
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    border-radius: 50%;
+    /* makes it a circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    /* optional: makes it look clickable */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    /* optional: subtle shadow */
+}
+
+.back-button-icon:hover {
+     background-color: var(--mainColor);
+}
