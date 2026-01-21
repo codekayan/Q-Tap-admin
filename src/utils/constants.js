@@ -14,8 +14,8 @@
 
 
 
-export const BASE_URL = '//api.qutap.co/api/';
-export const BASE_URL_IMG = `//api.qutap.co/`;
+export const BASE_URL = 'https://api.qutap.co/api/';
+export const BASE_URL_IMG = `https://api.qutap.co/`;
 
 
 
