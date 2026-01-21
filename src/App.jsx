@@ -1,6 +1,6 @@
 import "./App.css";
 import { BranchesPage } from "./Component/Branches/BranchesPage";
-import { BusinessInfoPage } from "./Component/Business-info/BusinessInfoPage";
+// import { BusinessInfoPage } from "./Component/Business-info/BusinessInfoPage";
 import { DashboardHome } from "./Pages/DashboardHome/DashboardHome";
 import { PasswordResetPage } from "./Component/PasswordReset/PasswordResetPage";
 import { PaymentPage } from "./Component/payment/PaymentPage";
@@ -460,10 +460,10 @@ function App() {
 
         case "chat":
           // Handle chat type
-          {
-            localStorage.getItem("adminToken") &&
-              toast.success(`💬 New Message: ${data?.message?.message}`);
-          }
+          // {
+          //   localStorage.getItem("adminToken") &&
+          //     toast.success(`💬 New Message: ${data?.message?.message}`);
+          // }
           // Add logic to update chat UI or state
           break;
 

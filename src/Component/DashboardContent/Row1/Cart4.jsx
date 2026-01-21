@@ -72,7 +72,7 @@ export const Cart4 = () => {
     return () => {
       isMounted = false; // Cleanup to prevent multiple requests
     };
-  }, [selectedYear]);
+  });
 
   return (
     <>

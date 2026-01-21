@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Typography, Button, IconButton, Divider, } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { Box, display, minHeight, styled, useTheme } from "@mui/system";
+import { Box, styled, useTheme } from "@mui/system";
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -84,7 +84,7 @@ export const LogoClient = () => {
 
         }
         fetchBranches()
-    }, [])
+    },)
     const handleClick = (branch) => {
         localStorage.setItem('selectedBranch', branch.id)
         setSelectedId(branch.id);

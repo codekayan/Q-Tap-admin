@@ -28,7 +28,7 @@ export const Row1 = () => {
         return () => {
             isMounted = false; // Cleanup to prevent multiple requests
         };
-    }, []);
+    },);
     return (
         <Box sx={{ flexGrow: 1, padding: '0px 20px 20px 20px' }}>
             <Grid className="mainContainer" container spacing={3}>

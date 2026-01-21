@@ -1,17 +1,8 @@
-import { color, useTheme } from '@mui/system';
+import { useTheme } from '@mui/system';
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-const CustomTooltip = ({ active, payload }) => {
-  if (active && payload && payload.length) {
-    return (
-      <div style={{ background: '#fff', border: '1px solid #ccc', padding: '0px 5px', fontSize: '10px', borderRadius: '5px' }}>
-        <p>{`${payload[0].payload.name}: ${payload[0].value / 1000}k`}</p>
-      </div>
-    );
-  }
-  return null;
-};
+
 
 const Cart2 = ({ Total_Orders }) => {
   const [allOrders, setAllOrders] = React.useState([]);

@@ -27,7 +27,7 @@ const DarkModeSwitch = () => {
         } if (defaultModeOfBranch === "dark" && mode === "light") {
             toggleColorMode()
         }
-    }, [selectedBranch?.default_mode])
+    },)
     return (
         <Box sx={{ display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center" }}>
             <LightModeOutlinedIcon onClick={toggleColorMode}

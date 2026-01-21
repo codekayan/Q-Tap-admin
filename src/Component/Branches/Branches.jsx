@@ -1,13 +1,10 @@
 
-import { Box, Button, styled, Typography, IconButton, Grid, useTheme } from '@mui/material';
-import React from 'react';
+import { Box, Button, styled, Typography, IconButton, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import PriorityHighOutlinedIcon from '@mui/icons-material/PriorityHighOutlined';
 import { useTranslation } from 'react-i18next';
 import styles from '../../Pages/DashboardClient/Pages/SupportClient/supportCard.module.css';
-import { useSelector, useDispatch } from "react-redux";
-import { updateBusinessData, addBranch, selectBranch, clearBusinessData, setBranches } from "../../store/register/businessSlice";
 import useBranchStore from '../../store/zustand-store/register-client-branch-store';
 
 
@@ -41,7 +38,6 @@ export const Branches = () => {
   const handleEditClick = (branchIndex) => {
     navigate(`/business-info/edit/${branchIndex}`);
   }
-  const isAr = i18n.language === 'ar';
 
   return (
     <Box marginTop={'50px'} padding={"10px 40px"} display={'flex'} flexDirection={'column'} flexGrow={1}

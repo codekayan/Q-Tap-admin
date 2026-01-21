@@ -1,5 +1,4 @@
 import { Box, Grid, styled, Typography, useTheme } from '@mui/material'
-import React from 'react'
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -26,16 +25,7 @@ const ImageContainer = styled(Box)({
     },
 });
 
-const TextOverlay = styled(Box)({
-    position: 'absolute',
-    zIndex: 2,
-    top: '45%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    textAlign: 'left',
-    color: 'white',
-    padding: '20px',
-});
+
 
 
 const Divider = styled(Box)({

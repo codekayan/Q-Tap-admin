@@ -1,11 +1,10 @@
 
-import { Box, Button, MenuItem, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, Grid, InputAdornment, Select, FormControl, useTheme, IconButton, Checkbox, FormControlLabel, Radio, CircularProgress, OutlinedInput, InputLabel } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import { Box, Button, MenuItem, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, Grid, InputAdornment, Select, FormControl, useTheme, IconButton, Checkbox, FormControlLabel, Radio, CircularProgress } from '@mui/material';
+import  { useState, useEffect } from 'react';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
-import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
 import NightlightIcon from '@mui/icons-material/Nightlight';
 import { useNavigate } from 'react-router';
@@ -16,14 +15,11 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import ListIcon from '@mui/icons-material/List';
 import { toast } from 'react-toastify';
 import { timeOptions } from './WorkingHoursDays';
-import { Country, Governorates } from '../../utils/city';
 
 import { useSelector, useDispatch } from "react-redux";
 import { updateBusinessData, } from "../../store/register/businessSlice";
 import MapWithPin from '../../utils/MapWithPin';
 import useRegisterChangeThemeMode from '../../Hooks/Queries/useRegisterChangeThemeMode';
-import { useGetEgyptGovern } from '../../Hooks/Queries/public/citys/useGetEgyptGovern';
-import { useGetEgyptCityByGovernID } from '../../Hooks/Queries/public/citys/useGetEgyptCityByGovernID';
 import useGetGovernAndCityFromQuery from '../../Hooks/Queries/public/citys/useGetGovernAndCityFromQuery';
 import PhoneField from '../phone-field/PhoneField';
 
@@ -118,8 +114,7 @@ export const BusinessInfo = () => {
         };
         console.log("use effect to updata business data")
         dispatch(updateBusinessData(updatedData));
-    }, [mode, design, format, currency, country, city, businessName, website,
-        businessEmail, businessPhone, activeWaiter, paymentTime, paymentMethods, pos]);
+    }, );
 
     // const { toggleColorMode, setTheme, mode: ThemeMode } = useColorMode();
     // useEffect(() => {

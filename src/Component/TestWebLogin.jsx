@@ -12,7 +12,7 @@ export function TestWebLogin() {
             navigate('/');
         } else {
             if (localStorage.getItem("Token")) {
-                if (localStorage.getItem("Token") == urlToken) {
+                if (localStorage.getItem("Token") === urlToken) {
                     navigate("/setting-client");
                 } else {
                     localStorage.setItem("Token", urlToken);

@@ -1,6 +1,5 @@
 import { SetupPage } from "../Business-info/SetupPage";
 import { Branches } from "./Branches";
-import React, { useEffect } from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import Language from "../dashboard/TopBar/Language";
 import SupportChat from "../chat/SupportChat";

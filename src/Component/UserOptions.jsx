@@ -3,10 +3,10 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import { Avatar, Box, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Popover, Typography, useTheme } from "@mui/material";
+import { Avatar, Box, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Popover, Typography, useTheme } from "@mui/material";
 
 import { useNavigate } from 'react-router';
-import { Edit, Logout, Settings } from '@mui/icons-material';
+import { Logout, Settings } from '@mui/icons-material';
 
 
 

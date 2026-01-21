@@ -40,7 +40,7 @@ export const ClientsLog = () => {
         return () => {
             isMounted = false; // Cleanup to prevent multiple requests
         };
-    }, []);
+    },);
 
     // Prepare data with fallback
     const clientData = Clients_Log?.map(log => ({

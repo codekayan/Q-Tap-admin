@@ -93,7 +93,7 @@ export const Products = () => {
             toast.error(t("plSelectProduct"));
         }
     };
-    const [menus, setMenus] = useState([]);
+    const [ setMenus] = useState([]);
 
     const getMenus = async () => {
         try {
@@ -113,7 +113,7 @@ export const Products = () => {
     };
     useEffect(() => {
         getMenus();
-    }, []);
+    },);
 
     return (
         <Box marginTop={"50px"} padding={"50px"} flexGrow={1}>
