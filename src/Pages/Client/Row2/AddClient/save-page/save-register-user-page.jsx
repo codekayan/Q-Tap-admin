@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import BranchForm from "./save-page-branch-data-from";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -6,13 +5,11 @@ import { Button, useTheme } from "@mui/material";
 import PersonalInfoForm from "./save-page-person-data-from";
 import { CheckOutlined } from "@mui/icons-material";
 import {
-  phoneSchema,
   saveNewRegisterUserFormSchema,
 } from "./saveNewRegisterUserFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSelector } from "react-redux";
 import { selectRegisterPersonalData } from "../../../../../store/register/personalSlice";
-import { printFormData } from "../../../../../utils/utils";
 import { useRegisterNewUser } from "../../../../../Hooks/Queries/ClientRegister/actions/useRegisterNewUser";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
@@ -159,6 +156,7 @@ const SaveRegisterUserDataPage = () => {
     preparePersonalInfoInFormDataObject({ personalData: data, formData });
 
     if (data.branches && Array.isArray(data.branches)) {
+      // eslint-disable-next-line array-callback-return
       data.branches.map((branch, index) => {
         prepareBrunchDataInFormDataObject({
           data: branch,

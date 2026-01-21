@@ -23,14 +23,10 @@ import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 import { updatePersonalData } from "../../store/register/personalSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useGetEgyptGovern } from "../../Hooks/Queries/public/citys/useGetEgyptGovern";
 import { YEAR_SELECT_START_FROM } from "../../utils/utils";
-import {
-  COUNTRIES,
-  COUNTRIES_CODES,
-} from "../../utils/constant-variables/countries-codes";
-import PhoneField from "../phone-field/PhoneField";
+
 import { passwordSchema } from "../../Pages/Client/Row2/AddClient/save-page/saveNewRegisterUserFormSchema";
 import PhoneFieldWithOtp from "../phone-field/PhoneFieldWithOtp";
 import { toast } from "react-toastify";
@@ -61,7 +57,7 @@ const SignUp = () => {
   // const [user_type, setUserType] = useState('');
 
   const [apiError, setApiError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const [apiSuccess, setApiSuccess] = useState("");
 
   const { t, i18n } = useTranslation();
@@ -118,16 +114,7 @@ const SignUp = () => {
     // }
 
     // resive data from user
-    const data = {
-      name: fullName,
-      mobile: phone,
-      email,
-      password,
-      confirmPassword,
-      birth_date: `${year}-${month}-${day}`,
-      country,
-      user_type: "qtap_clients",
-    };
+ 
 
     console.log("countryCode", countryCode);
     const personalContextData = {
