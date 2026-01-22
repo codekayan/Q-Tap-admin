@@ -4,37 +4,13 @@ on:
   push:
     branches: [main, master]
 
-env:
-  CI: false
-  DISABLE_ESLINT_PLUGIN: true
-
 jobs:
-  build-and-deploy:
-    name: Build & Deploy to VPS
+  deploy:
+    name: Deploy to VPS
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Clear npm cache
-        run: npm cache clean --force
-
-      - name: Install dependencies (fresh)
-        run: rm -rf node_modules && npm ci
-
-      - name: Build project
-        run: npm run build
-
-      - name: List build files
-        run: ls -la build/
-
-      - name: Clear server cache & Deploy
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -42,38 +18,11 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            echo "=== Clearing old files ==="
-            rm -rf /var/www/Q-Tap-admin/*
-            echo "=== Directory cleared ==="
-
-      - name: Deploy to VPS via rsync
-        uses: burnett01/rsync-deployments@7.0.1
-        with:
-          switches: -avzr --delete --progress --checksum
-          path: build/
-          remote_path: /var/www/Q-Tap-admin/
-          remote_host: ${{ secrets.VPS_HOST }}
-          remote_user: ${{ secrets.VPS_USERNAME }}
-          remote_key: ${{ secrets.VPS_SSH_KEY }}
-          remote_port: ${{ secrets.VPS_PORT }}
-
-      - name: Restart web server & clear cache
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-          script: |
-            echo "=== Restarting web server ==="
-            # Restart Nginx (if using)
-            systemctl restart nginx 2>/dev/null || echo "Nginx not found"
-            # Restart Apache (if using)
-            systemctl restart apache2 2>/dev/null || echo "Apache not found"
-            # Clear server cache (if any)
-            sync && echo 3 > /proc/sys/vm/drop_caches 2>/dev/null || echo "Cache clear skipped"
-            echo "=== Deployment completed ==="
-            echo "Files in /var/www/Q-Tap-admin:"
-            ls -la /var/www/Q-Tap-admin/
-            echo "=== Last modified ==="
-            stat /var/www/Q-Tap-admin/index.html 2>/dev/null || echo "index.html not found"
+            cd /var/www/Q-Tap-admin
+            git pull origin main || git pull origin master
+            npm install
+            export CI=false
+            export DISABLE_ESLINT_PLUGIN=true
+            npm run build
+            systemctl restart nginx
+            echo "✅ Deployed!"
