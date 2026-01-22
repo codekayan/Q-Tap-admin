@@ -21,3 +21,4 @@ export const BASE_URL_IMG = `https://api.qutap.co/`;
 
 export const WEBSITE_SERVER_URL = "https://www.qutap.co/"
 export const DASHBOARD_SERVER_URL = "https://dashboard.qutap.co/"
+ 
