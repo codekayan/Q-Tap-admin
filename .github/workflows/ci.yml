@@ -17,39 +17,63 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js with cache
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        id: cache-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
-        if: steps.cache-modules.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Build project
         run: npm run build
 
-      - name: Setup SSH
+      - name: Show build info
+        run: |
+          echo "=== BUILD INFO ==="
+          echo "Build time: $(date)"
+          echo "Build files:"
+          ls -la build/
+          echo "index.html content (first 20 lines):"
+          head -20 build/index.html
+
+      - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p ${{ secrets.VPS_PORT }} -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
 
-      - name: Deploy to server
+      - name: Test SSH Connection
         run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "rm -rf /var/www/Q-Tap-admin/*"
-          scp -i ~/.ssh/deploy_key -P ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -r build/* ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/Q-Tap-admin/
+          echo "=== TESTING SSH CONNECTION ==="
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "echo 'SSH OK - Server: $(hostname)'"
 
-      - name: Restart Nginx
+      - name: Clear old files on server
         run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "systemctl restart nginx 2>/dev/null || true"
-          echo "✅ Deployed at $(date)"
+          echo "=== CLEARING SERVER ==="
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "rm -rf /var/www/Q-Tap-admin/* && echo 'Cleared!'"
+
+      - name: Deploy files to server
+        run: |
+          echo "=== DEPLOYING FILES ==="
+          scp -i ~/.ssh/deploy_key -P ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -r build/* ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/Q-Tap-admin/
+          echo "=== SCP COMPLETED ==="
+
+      - name: Verify deployment on server
+        run: |
+          echo "=== VERIFYING ON SERVER ==="
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} << 'EOF'
+          echo "Current time on server: $(date)"
+          echo "Files in /var/www/Q-Tap-admin:"
+          ls -la /var/www/Q-Tap-admin/
+          echo ""
+          echo "index.html last modified:"
+          stat /var/www/Q-Tap-admin/index.html
+          echo ""
+          echo "index.html first 10 lines:"
+          head -10 /var/www/Q-Tap-admin/index.html
+          echo ""
+          echo "=== Restarting Nginx ==="
+          systemctl restart nginx 2>/dev/null && echo "Nginx restarted!" || echo "Nginx not found or failed"
+          EOF
