@@ -4,48 +4,25 @@ on:
   push:
     branches: [main, master]
 
-env:
-  CI: false
-  DISABLE_ESLINT_PLUGIN: true
-
 jobs:
-  build-and-deploy:
-    name: Build & Deploy to VPS
+  deploy:
+    name: Deploy to VPS
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        id: cache-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: Build project
-        run: npm run build
-
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p ${{ secrets.VPS_PORT }} -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
-
-      - name: Clear & Deploy
-        run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "rm -rf /var/www/Q-Tap-admin/*"
-          scp -i ~/.ssh/deploy_key -P ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -r build/* ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/Q-Tap-admin/
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "systemctl restart nginx && echo '✅ Done!'"
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            cd /var/www/Q-Tap-admin
+            git pull origin main || git pull origin master
+            npm install
+            export CI=false
+            export DISABLE_ESLINT_PLUGIN=true
+            npm run build
+            systemctl restart nginx
+            echo "✅ Deployed!"
