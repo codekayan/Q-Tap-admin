@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import { ThemeModeProvider } from './context/ThemeModeProvider'
 import './utils/use-tailwind/useTailwind.css';
 
-
+/**majd */
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
