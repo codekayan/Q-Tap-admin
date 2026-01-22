@@ -22,58 +22,58 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Clear npm cache
-        run: npm cache clean --force
-
-      - name: Install dependencies (fresh)
-        run: rm -rf node_modules && npm ci
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build project
         run: npm run build
 
-      - name: List build files
-        run: ls -la build/
+      - name: Show build info
+        run: |
+          echo "=== BUILD INFO ==="
+          echo "Build time: $(date)"
+          echo "Build files:"
+          ls -la build/
+          echo "index.html content (first 20 lines):"
+          head -20 build/index.html
 
-      - name: Clear server cache & Deploy
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-          script: |
-            echo "=== Clearing old files ==="
-            rm -rf /var/www/Q-Tap-admin/*
-            echo "=== Directory cleared ==="
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.VPS_PORT }} -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
 
-      - name: Deploy to VPS via rsync
-        uses: burnett01/rsync-deployments@7.0.1
-        with:
-          switches: -avzr --delete --progress --checksum
-          path: build/
-          remote_path: /var/www/Q-Tap-admin/
-          remote_host: ${{ secrets.VPS_HOST }}
-          remote_user: ${{ secrets.VPS_USERNAME }}
-          remote_key: ${{ secrets.VPS_SSH_KEY }}
-          remote_port: ${{ secrets.VPS_PORT }}
+      - name: Test SSH Connection
+        run: |
+          echo "=== TESTING SSH CONNECTION ==="
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "echo 'SSH OK - Server: $(hostname)'"
 
-      - name: Restart web server & clear cache
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-          script: |
-            echo "=== Restarting web server ==="
-            # Restart Nginx (if using)
-            systemctl restart nginx 2>/dev/null || echo "Nginx not found"
-            # Restart Apache (if using)
-            systemctl restart apache2 2>/dev/null || echo "Apache not found"
-            # Clear server cache (if any)
-            sync && echo 3 > /proc/sys/vm/drop_caches 2>/dev/null || echo "Cache clear skipped"
-            echo "=== Deployment completed ==="
-            echo "Files in /var/www/Q-Tap-admin:"
-            ls -la /var/www/Q-Tap-admin/
-            echo "=== Last modified ==="
-            stat /var/www/Q-Tap-admin/index.html 2>/dev/null || echo "index.html not found"
+      - name: Clear old files on server
+        run: |
+          echo "=== CLEARING SERVER ==="
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "rm -rf /var/www/Q-Tap-admin/* && echo 'Cleared!'"
+
+      - name: Deploy files to server
+        run: |
+          echo "=== DEPLOYING FILES ==="
+          scp -i ~/.ssh/deploy_key -P ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -r build/* ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/Q-Tap-admin/
+          echo "=== SCP COMPLETED ==="
+
+      - name: Verify deployment on server
+        run: |
+          echo "=== VERIFYING ON SERVER ==="
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} << 'EOF'
+          echo "Current time on server: $(date)"
+          echo "Files in /var/www/Q-Tap-admin:"
+          ls -la /var/www/Q-Tap-admin/
+          echo ""
+          echo "index.html last modified:"
+          stat /var/www/Q-Tap-admin/index.html
+          echo ""
+          echo "index.html first 10 lines:"
+          head -10 /var/www/Q-Tap-admin/index.html
+          echo ""
+          echo "=== Restarting Nginx ==="
+          systemctl restart nginx 2>/dev/null && echo "Nginx restarted!" || echo "Nginx not found or failed"
+          EOF
