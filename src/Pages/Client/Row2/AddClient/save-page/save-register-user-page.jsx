@@ -181,7 +181,8 @@ const SaveRegisterUserDataPage = () => {
       {
         onSuccess: (res) => {
           console.log("onsuccess");
-          navigate("/otp-signup");
+          // Skip OTP verification step completely
+          navigate("/welcome");
           toast.success(
             t(false ? "dataUpdatedSuccessfully" : "dataSavedSuccessfully")
           );

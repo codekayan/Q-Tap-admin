@@ -28,8 +28,7 @@ import { useGetEgyptGovern } from "../../Hooks/Queries/public/citys/useGetEgyptG
 import { YEAR_SELECT_START_FROM } from "../../utils/utils";
 
 import { passwordSchema } from "../../Pages/Client/Row2/AddClient/save-page/saveNewRegisterUserFormSchema";
-import PhoneFieldWithOtp from "../phone-field/PhoneFieldWithOtp";
-import { toast } from "react-toastify";
+import PhoneFieldSimple from "../phone-field/PhoneFieldSimple";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -44,7 +43,6 @@ const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [countryCode, setCountryCode] = useState("");
-  const [isPhoneVerify, setPhoneVerify] = useState(false);
   const [email, setEmail] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
@@ -52,7 +50,6 @@ const SignUp = () => {
   const [country, setCountry] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [otp, setOtp] = useState("");
 
   // const [user_type, setUserType] = useState('');
 
@@ -81,11 +78,6 @@ const SignUp = () => {
   const handleSignUp = async () => {
     setApiError("");
     setApiSuccess("");
-    //
-    if (!isPhoneVerify) {
-      toast.error("your must verify your otp first");
-      return;
-    }
     // inputs validate
     if (!fullName || !phone || !email || !password || !confirmPassword) {
       setApiError(t("fieldAreRequired"));
@@ -165,15 +157,11 @@ const SignUp = () => {
         />
       </FormControl>
 
-      <PhoneFieldWithOtp
+      <PhoneFieldSimple
         countryCode={countryCode}
         phone={phone}
         setCountryCode={setCountryCode}
         setPhone={setPhone}
-        otp={otp}
-        setOtp={setOtp}
-        isPhoneVerify={isPhoneVerify}
-        setPhoneVerify={setPhoneVerify}
       />
 
       <FormControl required variant="outlined" fullWidth>

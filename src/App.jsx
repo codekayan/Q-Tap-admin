@@ -77,7 +77,6 @@ import { HelpAffiliate } from "./Component/login/HelpAffiliate";
 import { HelpClient } from "./Component/Help/HelpClient";
 import ProtectedRouteClient from "./Component/ProtectedRoute/ProtectedRouterClient";
 import { TestWebLogin } from "./Component/TestWebLogin";
-import { OtpSignupPage } from "./Component/Otp/OtpSingupPage";
 import ClientPlan from "./Pages/DashboardClient/Pages/client-plane-page/ClientPlan";
 import ClientsPlanTables from "./Pages/Admin/Clients-Plan-Tables/ClientsPlanTables";
 import EditBusinessInfo from "./Pages/register-busniess-info-page/EditBusinessInfo";
@@ -170,10 +169,6 @@ function App() {
           {
             path: "/welcome",
             element: <Welcome />, // done
-          },
-          {
-            path: "/otp-signup",
-            element: <OtpSignupPage />, // done
           },
         ],
       },
