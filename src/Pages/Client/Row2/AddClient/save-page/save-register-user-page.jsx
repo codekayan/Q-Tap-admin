@@ -50,7 +50,20 @@ export const prepareBrunchDataInFormDataObject = ({
   formData,
 }) => {
   try {
-    formData.append(`${prefix}[pin]`, data.pin);
+    console.log(`${prefix} branch data:`, data);
+    console.log(`${prefix} pin value:`, data.pin);
+    
+    // Validate PIN
+    if (!data.pin || data.pin.trim() === "") {
+      throw new Error("PIN is required");
+    }
+    if (data.pin.length !== 6 || !/^\d+$/.test(data.pin)) {
+      throw new Error("PIN must be 6 digits");
+    }
+
+    // تمرير PIN كمتغير منفصل
+    formData.append(`pin`, data.pin);
+    console.log(`pin appended successfully`);
 
     // Contact info
     formData.append(
@@ -151,6 +164,20 @@ const SaveRegisterUserDataPage = () => {
 
   const onSubmit = (data) => {
     console.log("Form data:", data);
+    console.log("Branches data:", data.branches);
+
+    // Validate that all branches have PIN
+    if (data.branches && Array.isArray(data.branches)) {
+      data.branches.forEach((branch, index) => {
+        console.log(`Branch ${index} pin:`, branch.pin);
+      });
+      
+      const missingPin = data.branches.find((branch, index) => !branch.pin || branch.pin.trim() === "");
+      if (missingPin) {
+        toast.error("PIN is required for all branches");
+        return;
+      }
+    }
 
     const formData = new FormData();
     preparePersonalInfoInFormDataObject({ personalData: data, formData });
@@ -158,11 +185,16 @@ const SaveRegisterUserDataPage = () => {
     if (data.branches && Array.isArray(data.branches)) {
       // eslint-disable-next-line array-callback-return
       data.branches.map((branch, index) => {
-        prepareBrunchDataInFormDataObject({
-          data: branch,
-          formData,
-          prefix: `brunch${index + 1}`,
-        });
+        try {
+          prepareBrunchDataInFormDataObject({
+            data: branch,
+            formData,
+            prefix: `brunch${index + 1}`,
+          });
+        } catch (error) {
+          toast.error(`Branch ${index + 1}: ${error.message}`);
+          throw error;
+        }
       });
     }
     formData.append(`pricing_id`, personalData.pricing_id);
@@ -175,6 +207,12 @@ const SaveRegisterUserDataPage = () => {
     formData.append(`payment_method`, personalData.payment_method);
     if (personalData.discount_id)
       formData.append(`coupn_plan_code`, personalData.discount_id.code);
+
+    // Log FormData before sending
+    console.log("FormData before sending:");
+    for (let [key, value] of formData.entries()) {
+      console.log(`  ${key}:`, value);
+    }
 
     mutate(
       { data: formData },

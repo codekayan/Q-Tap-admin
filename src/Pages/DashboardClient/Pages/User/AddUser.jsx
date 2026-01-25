@@ -7,6 +7,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL,BASE_URL_IMG } from "../../../../utils/constants";
+import { useSelector } from 'react-redux';
+import { selectSelectedBranch } from '../../../../store/client/clientAdmin';
 
 const iconsArray = [
     { name: 'Dashboard', icon: <img src="/assets/dashboard.svg" alt="icon" style={{ width: "16px", height: "16px" }} /> },
@@ -19,11 +21,12 @@ const iconsArray = [
     { name: 'Setting', icon: <img src="/assets/setting.svg" alt="icon" style={{ width: "16px", height: "16px" }} /> },
 ];
 
-export const AddUser = ({ open, onClose }) => {
+export const AddUser = ({ open, onClose, onSuccess }) => {
     const theme = useTheme();
     const { t } = useTranslation();
     const [name, setName] = useState('');
     const [pin, setPin] = useState(['', '', '', '', '', '']);
+    const branchID = useSelector(selectSelectedBranch);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -52,7 +55,7 @@ export const AddUser = ({ open, onClose }) => {
         const staffData = {
             name,
             pin: pinString,
-            brunch_id: localStorage.getItem("selectedBranch"),
+            brunch_id: branchID || localStorage.getItem("selectedBranch"),
         };
 
         try {
@@ -61,27 +64,31 @@ export const AddUser = ({ open, onClose }) => {
                 headers: { Authorization: `Bearer ${token}` },
             };
 
-
             const response = await axios.post(`${BASE_URL}restaurant_user_staff`, staffData, config)
 
             
             if (response.data.success !== false) {
-                if (response.status === 200) {
-                    toast.success(t('add user success'));
+                if (response.status === 200 || response.status === 201) {
+                    toast.success(t('userStaff.add') || t('add user success'));
+                    setName('');
+                    setPin(['', '', '', '', '', '']);
+                    if (onSuccess) {
+                        onSuccess();
+                    }
                     onClose();
                 } else {
-                    toast.error(t('failed to add used'));
+                    toast.error(t('failed to add user'));
                 }
 
             } else {
                 if (response.data.errors) {
-                    toast.error(t('pinAlreadyBeenTakend'));
-                    // onClose();
+                    toast.error(response.data.message || t('pinAlreadyBeenTakend') || 'خطأ: هذا الـ PIN قد تم استخدامه بالفعل');
                 }
             }
         } catch (error) {
             console.error('API Error:', error);
-            toast.error(t('errorSavingUser') + ': ' + (error.response?.data?.message || error.message));
+            const errorMessage = error.response?.data?.message || error.response?.data?.errors?.pin?.[0] || error.message;
+            toast.error(t('errorSavingUser') + ': ' + errorMessage);
         } finally {
             setIsSubmitting(false);
         }

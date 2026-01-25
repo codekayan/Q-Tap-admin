@@ -66,7 +66,7 @@ export const UserTable = ({ userStaff, getUserStaff }) => {
   const handleDeleteUserStaff = async (id) => {
     try {
 
-      const response = await axios.delete(`${BASE_URL}resturant_users/${id}`, {
+      const response = await axios.delete(`${BASE_URL}restaurant_user_staff/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           "Authorization": `Bearer ${localStorage.getItem('Token')}`
@@ -147,10 +147,15 @@ export const UserTable = ({ userStaff, getUserStaff }) => {
             {t("add user")}
             <span style={{ fontSize: "15px", color: theme.palette.orangePrimary.main, fontWeight: 700, paddingLeft: "6px" }}>+</span>
           </Button>
-          <AddUser open={addUserModalOpen} onClose={() => {
-            setAddUserModalOpen(false)
-            getUserStaff(branchID)
-          }} />
+          <AddUser 
+            open={addUserModalOpen} 
+            onClose={() => {
+              setAddUserModalOpen(false)
+            }}
+            onSuccess={() => {
+              getUserStaff(branchID)
+            }}
+          />
 
           <Button onClick={() => setAddRoleModalOpen(true)} sx={{ fontSize: "12px", color: theme.palette.orangePrimary.main, display: "flex", cursor: "pointer", textTransform: "capitalize" }}>
             {t("add role")}

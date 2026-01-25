@@ -178,6 +178,7 @@ const EditBusinessInfo = () => {
 
   const onSubmit = (data) => {
     console.log("Form Data:", data);
+    console.log("PIN in form data:", data.pin);
     if (id) {
       console.log("updata branch");
       updateBranch(id, data);

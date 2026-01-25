@@ -99,6 +99,11 @@ export default function BranchForm({
     const freshBranches = useBranchStore.getState().branches;
     console.log("freshBranches", freshBranches);
     console.log("formValues", formValues);
+    
+    freshBranches.forEach((branch, i) => {
+      console.log(`Branch ${i} pin from store:`, branch.pin);
+    });
+    
     // 5️⃣ Reset the form with updated branches
     // The Controllers now use the updated selectedBranch
     reset(

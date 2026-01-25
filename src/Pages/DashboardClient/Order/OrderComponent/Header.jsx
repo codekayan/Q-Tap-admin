@@ -56,6 +56,19 @@ const Header = () => {
         setAnchorElUser(null);
     };
     const {t} = useTranslation();
+
+    // Get user role from localStorage
+    const getUserRole = () => {
+        try {
+            const userData = JSON.parse(localStorage.getItem('UserData'));
+            
+            return userData?.user?.role || null;
+        } catch (error) {
+            return null;
+        }
+    };
+
+    const userRole = getUserRole();
     return (
         <ImageContainer>
             <AppBar position="static" style={{
@@ -63,11 +76,13 @@ const Header = () => {
                 padding: "0px 40px", zIndex: 3, boxShadow: 'none'
             }}>
                 <Box sx={{ display: 'flex', alignItems: "center", justifyContent: 'space-between',margin:{xs:'3px 0px',md:'0px'} ,padding:{xs:'3px 0px',md:'0px'}}} >
-                    <IconButton
-                        onClick={() => { navigate('/dashboard-client'); }}
-                        edge="start" color="inherit" aria-label="back">
-                        <ArrowBackIosNewIcon sx={{ fontSize: "20px" }} />
-                    </IconButton>
+                    {userRole !== 'chef' && (
+                        <IconButton
+                            onClick={() => { navigate('/dashboard-client'); }}
+                            edge="start" color="inherit" aria-label="back">
+                            <ArrowBackIosNewIcon sx={{ fontSize: "20px" }} />
+                        </IconButton>
+                    )}
 
 
                     <Box style={{ display: 'flex', alignItems: 'center' }} gap={1}  flexWrap={{ xs:'wrap',md:'nowrap' }}>

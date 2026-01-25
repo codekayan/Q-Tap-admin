@@ -15,7 +15,6 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import ListIcon from '@mui/icons-material/List';
 import { toast } from 'react-toastify';
 import { timeOptions } from './WorkingHoursDays';
-
 import { useSelector, useDispatch } from "react-redux";
 import { updateBusinessData, } from "../../store/register/businessSlice";
 import MapWithPin from '../../utils/MapWithPin';
