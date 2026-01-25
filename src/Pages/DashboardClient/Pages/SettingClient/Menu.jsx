@@ -166,12 +166,18 @@ const Menu = () => {
 
         if (logoImage) {
             formData.append('logo', logoImage);
+            console.log('Logo image appended:', logoImage);
         }
         if (bannerImage) {
             formData.append('cover', bannerImage);
+            console.log('Banner image appended:', bannerImage);
         }
-        /* 
-         */
+        
+        // Debug: log FormData contents
+        console.log('FormData contents:');
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+        }
         try {
 
             const response = await fetch(`${BASE_URL}clients_update_menu/${id}`, {
@@ -201,14 +207,15 @@ const Menu = () => {
         const file = event.target.files[0];
         if (file) {
             setLogoImage(file);
+            console.log('Logo file selected:', file.name);
         }
     };
 
     const handleBannerUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-
             setBannerImage(file);
+            console.log('Banner file selected:', file.name);
         }
     };
 
@@ -304,7 +311,7 @@ const Menu = () => {
                             paddingTop: '20px',
                         }}
                     >
-                        <ImageBox imageUrl={logoImage ? URL.createObjectURL(logoImage) : `${BASE_URL_IMG}${existBranch?.logo}`}>
+                        <ImageBox imageUrl={logoImage ? URL.createObjectURL(logoImage) : existBranch?.logo ? `${BASE_URL_IMG}${existBranch.logo}` : null}>
                             {!logoImage && !existBranch?.logo && (
                                 <span className="icon-image-gallery" style={{ fontSize: '40px', color: '#AAAAAA' }}></span>
                             )}
@@ -354,7 +361,7 @@ const Menu = () => {
                                 backgroundPosition: 'center',
                             }}
                         >
-                            {!bannerImage && !existBranch?.logo && (
+                            {!bannerImage && !existBranch?.cover && (
                                 <span className="icon-image-gallery" style={{ fontSize: '40px', color: '#AAAAAA' }}></span>
                             )}
                         </Box>

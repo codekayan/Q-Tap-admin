@@ -263,10 +263,13 @@ export const Tables = ({ openOldMenu }) => {
   };
 
   const data = useSelector(selectSelectedBranch);
-  const { data: tables } = useGetTablesByBranchID(data);
-  console.log("tables", tables);
+  const { data: tablesData, isLoading, error } = useGetTablesByBranchID(data);
+  console.log("tablesData", tablesData);
+  console.log("branchID", data);
+  
   const tableDataRes =
-    tables && Array.isArray(tables.tables) ? tables.tables : [];
+    tablesData && Array.isArray(tablesData.tables) ? tablesData.tables : [];
+  console.log("tableDataRes", tableDataRes);
   // console.log(data, tableDataRes);
 
   useEffect(() => {
@@ -299,15 +302,23 @@ export const Tables = ({ openOldMenu }) => {
           }}
         />
         <Grid container spacing={2} sx={{ marginTop: "10px" }}>
-          {tableDataRes?.map((table, index) => (
-            <Grid item key={index}>
-              <TableCard
-                table={table}
-                onDeleteTable={() => handleDeleteTable(table.id)}
-                onEditTable={handleEditTable}
-              />
-            </Grid>
-          ))}
+          {isLoading ? (
+            <Typography sx={{ p: 2 }}>{t("loading")}</Typography>
+          ) : error ? (
+            <Typography sx={{ p: 2, color: 'red' }}>{t("error")}: {error.message}</Typography>
+          ) : tableDataRes && tableDataRes.length > 0 ? (
+            tableDataRes.map((table, index) => (
+              <Grid item key={table.id || index}>
+                <TableCard
+                  table={table}
+                  onDeleteTable={() => handleDeleteTable(table.id)}
+                  onEditTable={handleEditTable}
+                />
+              </Grid>
+            ))
+          ) : (
+            <Typography sx={{ p: 2 }}>{t("noTables")}</Typography>
+          )}
           <Grid item>
             <Card
               onClick={handleOpenModal}

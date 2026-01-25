@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import DarkModeSwitch from "../../../../Component/DarkModeSwitch";
 import Language from "../../../../Component/dashboard/TopBar/Language";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllBranch, selectBranch, updateSelectedBranch } from "../../../../store/client/clientAdmin";
+import { selectAllBranch, selectBranch, updateSelectedBranch, selectSelectedBranch } from "../../../../store/client/clientAdmin";
 import { WEBSITE_SERVER_URL } from "../../../../utils/constants";
 import { logout } from "../../../../api/Client/logout";
 import { useAuthStore } from "../../../../store/zustand-store/authStore";
@@ -63,8 +63,9 @@ export default function TopBar() {
     const [branch, setBranch] = useState(null);
     const lang = localStorage.getItem("i18nextLng")
     const branches = useSelector(selectAllBranch)
+    const reduxSelectedBranchId = useSelector(selectSelectedBranch)
     // Load branches and selected branch from localStorage on component mount
-    const selectedBranch = localStorage.getItem("selectedBranch")
+    const selectedBranch = reduxSelectedBranchId || localStorage.getItem("selectedBranch")
 
     const {logout} = useAuthStore();
      
@@ -81,6 +82,16 @@ export default function TopBar() {
             }
         }
     }, []);
+
+    // Update branchNumber in localStorage whenever selectedBranch changes
+    useEffect(() => {
+        if (selectedBranch && branches.length > 0) {
+            const branchIndex = branches.findIndex(b => b.id === selectedBranch);
+            if (branchIndex !== -1) {
+                localStorage.setItem('branchNumber', branchIndex);
+            }
+        }
+    }, [selectedBranch, branches]);
 
     const handleToggleMode = () => {
         setMode(prevMode => prevMode === 'light' ? 'dark' : 'light');
@@ -168,7 +179,7 @@ export default function TopBar() {
                 <Menu disableScrollLock
                     anchorEl={branch}
                     open={Boolean(branch)}
-                    onClose={() => BranchClose()}
+                    onClose={() => setBranch(null)}
                     MenuProps={{
                         disableScrollLock: true,
 
@@ -220,7 +231,7 @@ export default function TopBar() {
 
 
                 <IconButton sx={{ margin: "0 5px" }}>
-                    <span class="icon-bell" style={{ color: theme.palette.orangePrimary.main }}></span>
+                    <span className="icon-bell" style={{ color: theme.palette.orangePrimary.main }}></span>
                 </IconButton>
 
                 <Language />
