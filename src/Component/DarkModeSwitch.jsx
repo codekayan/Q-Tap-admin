@@ -11,7 +11,7 @@ const DarkModeSwitch = () => {
     const theme = useTheme();
     const selectedBranchID = useSelector(selectSelectedBranch)
     const selectedBranch = useSelector(selectBranchById(selectedBranchID))
-  
+    const defaultModeOfBranch = selectedBranch?.default_mode ?? null
 
     useEffect(() => {
         document.body.classList.toggle('dark', mode === 'dark');
@@ -19,15 +19,15 @@ const DarkModeSwitch = () => {
     }, [mode]);
 
     useEffect(() => {
+        // تهيئة الوضع عند تحميل branch للمرة الأولى
         // "dark" or "white" api
-        // mode lib "dark"  or "light" 
-        const defaultModeOfBranch = selectedBranch?.default_mode
+        // mode lib "dark" or "light" 
         if (defaultModeOfBranch === "white" && mode === "dark") {
             toggleColorMode()
-        } if (defaultModeOfBranch === "dark" && mode === "light") {
+        } else if (defaultModeOfBranch === "dark" && mode === "light") {
             toggleColorMode()
         }
-    },)
+    }, [defaultModeOfBranch]) // قم بتشغيل هذا فقط عند تغيير defaultModeOfBranch
     return (
         <Box sx={{ display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center" }}>
             <LightModeOutlinedIcon onClick={toggleColorMode}

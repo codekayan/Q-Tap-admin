@@ -16,14 +16,6 @@ export const ThemeModeProvider = ({ children }) => {
     return storedMode === "dark" ? "dark" : "light"; // fallback to light
   });
 
-  useEffect(() => {
-    localStorage.setItem("themeMode", mode);
-    const root = document.documentElement;
-    root.style.setProperty('--mui-bg-color', theme.palette.background.paper);
-    root.style.setProperty('--mui-text-color', theme.palette.text.primary);
-  }, [mode]);
-
-
   const toggleColorMode = () => {
     setMode((prev) => (prev === "light" ? "dark" : "light"));
   };
@@ -45,6 +37,13 @@ export const ThemeModeProvider = ({ children }) => {
       },
     }
   ), [mode, isArabic]);
+
+  useEffect(() => {
+    localStorage.setItem("themeMode", mode);
+    const root = document.documentElement;
+    root.style.setProperty('--mui-bg-color', theme.palette.background.paper);
+    root.style.setProperty('--mui-text-color', theme.palette.text.primary);
+  }, [mode, theme]);
 
   const autofillStyles = {
     WebkitBoxShadow: `0 0 0 1000px ${theme.palette.background.paper} inset`,
