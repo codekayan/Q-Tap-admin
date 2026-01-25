@@ -61,7 +61,7 @@ const Header = () => {
     const getUserRole = () => {
         try {
             const userData = JSON.parse(localStorage.getItem('UserData'));
-            
+
             return userData?.user?.role || null;
         } catch (error) {
             return null;
@@ -102,7 +102,7 @@ const Header = () => {
                             color="inherit"
                             aria-label="Orders History"
                             sx={{ fontSize: "12px" }}>
-                            <span class="icon-history" style={{ color: theme.palette.orangePrimary.main, marginRight: "4px", fontSize: "16px" }} ></span>
+                            <span className="icon-history" style={{ color: theme.palette.orangePrimary.main, marginRight: "4px", fontSize: "16px" }} ></span>
                             {t("ordersHistory")}
                         </IconButton>
 
@@ -112,14 +112,14 @@ const Header = () => {
                                 onClick={handleClickOpen}
                                 color="inherit" sx={{ fontSize: "12px" }}
                                 aria-label="send notification">
-                                <span class="icon-bell" style={{ color: theme.palette.orangePrimary.main, marginRight: "4px", fontSize: "16px" }} />
+                                <span className="icon-bell" style={{ color: theme.palette.orangePrimary.main, marginRight: "4px", fontSize: "16px" }} />
                                 {t("sendNotification")}
                             </IconButton>
                             <SendNotificationModel open={open} handleClose={handleClose} />
                         </>
 
                         <IconButton color="inherit" sx={{ fontSize: "12px" }} aria-label="expand">
-                            <span class="icon-expand" style={{ fontSize: "10px", marginRight: "5px", color: theme.palette.orangePrimary.main }}></span>
+                            <span className="icon-expand" style={{ fontSize: "10px", marginRight: "5px", color: theme.palette.orangePrimary.main }}></span>
                             {t("expand")}
                         </IconButton>
 
@@ -177,7 +177,7 @@ const Header = () => {
                                             margin: "0 auto",
                                         }}>
 
-                                        <span class="icon-home-icon-silhouette" style={{ color: theme.palette.orangePrimary.main, marginRight: "5px", fontSize: "15px" }} ></span>
+                                        <span className="icon-home-icon-silhouette" style={{ color: theme.palette.orangePrimary.main, marginRight: "5px", fontSize: "15px" }} ></span>
                                         <span style={{ color: "white", fontSize: "12px", textTransform: "capitalize" }}>
                                             Home
                                         </span>
@@ -195,7 +195,7 @@ const Header = () => {
 
                                     <ListItem sx={{ cursor: "pointer" }} onClick={handleUserClose}>
                                         <ListItemIcon>
-                                            <span class="icon-price-tag" style={{ fontSize: "20px" }}></span>
+                                            <span className="icon-price-tag" style={{ fontSize: "20px" }}></span>
                                         </ListItemIcon>
                                         <ListItemText primary="My Subscription"
                                             primaryTypographyProps={{

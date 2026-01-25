@@ -45,7 +45,7 @@ export const Customers = () => {
 
   const branchID = useSelector(selectSelectedBranch)
   React.useEffect(() => {
-    if ([fromDate, fromDate, branchID].every(Boolean)) {
+    if ([fromDate, toDate, branchID].every(Boolean)) {
       dispatch(fetchCustomerLog({ branchId: branchID, dateFormate: `${fromDate}/${toDate}` }))
     }
   }, [dispatch, fromDate, toDate, branchID]);
@@ -61,7 +61,7 @@ export const Customers = () => {
         padding="10px 0"
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <span class="icon-show" style={{ fontSize: "30px", color: "#D8E0E0", marginRight: "6px" }} ></span>
+          <span className="icon-show" style={{ fontSize: "30px", color: "#D8E0E0", marginRight: "6px" }} ></span>
           <Typography variant='body1' sx={{ fontSize: "14px", color: theme.palette.text.gray }}>{t("log")}</Typography>
         </Box>
 

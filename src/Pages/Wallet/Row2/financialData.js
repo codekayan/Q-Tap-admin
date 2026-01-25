@@ -13,7 +13,7 @@ export const financialData = [
     },
     {
         title: "Expenses",
-        icon:<span class="icon-wallet1" style={{fontSize:"26px" , color:"gray"}}></span>,
+        icon:<span className="icon-wallet1" style={{fontSize:"26px" , color:"gray"}}></span>,
         value: "50,234.89",
         percentage: "15%",
         description: "Current Financial Year",

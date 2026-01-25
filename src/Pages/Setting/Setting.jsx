@@ -26,7 +26,7 @@ export const Setting = () => {
     {
       label: t("features"),
       icon: (
-        <span class="icon-new-features" style={{ fontSize: "18px" }}></span>
+        <span className="icon-new-features" style={{ fontSize: "18px" }}></span>
       ),
       content: <Features ref={featuresRef} />,
     },
@@ -52,7 +52,7 @@ export const Setting = () => {
 
     {
       label: t("faq"),
-      icon: <span class="icon-question" style={{ fontSize: "18px" }}></span>,
+      icon: <span className="icon-question" style={{ fontSize: "18px" }}></span>,
       content: <FAQ ref={faqRef} />,
     },
 

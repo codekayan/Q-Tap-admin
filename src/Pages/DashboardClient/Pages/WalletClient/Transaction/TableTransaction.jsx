@@ -63,7 +63,7 @@ export const TableTransaction = () => {
                     whiteSpace={'nowrap'}
                 >
                     <Box variant="body2" sx={{ fontSize: "13px", display: "flex", padding: "10px" }}>
-                        <span class="icon-transfer" style={{ fontSize: "22px", color: "#D8E0E0" }} ></span>
+                        <span className="icon-transfer" style={{ fontSize: "22px", color: "#D8E0E0" }} ></span>
                         {t("transactions")}
                     </Box>
                 </Box>

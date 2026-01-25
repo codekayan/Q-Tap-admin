@@ -59,7 +59,7 @@ export const Row1 = () => {
             }}
           >
             <span
-              class="icon-social"
+              className="icon-social"
               style={{ fontSize: "25px", marginRight: "6px", color: "#D8E0E0" }}
             ></span>
             <Typography
@@ -132,7 +132,7 @@ export const Row1 = () => {
             marginLeft: "10px",
           }}
         >
-          <span class="icon-wallet1" style={{ fontSize: "30px" }}></span>
+          <span className="icon-wallet1" style={{ fontSize: "30px" }}></span>
           <Typography
             variant="h6"
             sx={{
@@ -173,7 +173,7 @@ export const Row1 = () => {
               }}
             >
               <span
-                class="icon-Paymob"
+                className="icon-Paymob"
                 style={{ fontSize: "70px", fill: "white !important" }}
               ></span>
             </Button>

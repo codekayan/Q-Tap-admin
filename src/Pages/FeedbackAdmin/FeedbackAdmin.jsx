@@ -192,7 +192,7 @@ export const FeedbackAdmin = () => {
                                             borderBottom: "none",
                                         }}>
                                         <IconButton onClick={() => handleOpen(index)}>
-                                            <span class="icon-information" style={{ fontSize: '22px', color: theme.palette.orangePrimary.main }} />
+                                            <span className="icon-information" style={{ fontSize: '22px', color: theme.palette.orangePrimary.main }} />
                                         </IconButton>
                                         <FeedbackDetailsModal open={open} handleClose={handleClose} pageId={selectedIndex} />
                                     </TableCell>
@@ -232,7 +232,7 @@ export const FeedbackAdmin = () => {
                                             </Button>
 
                                             {/* <IconButton onClick={() => deleteFeedback(row.id)}>
-                                                <span class="icon-delete" style={{ color: '#F44336', fontSize: '20px' }} />
+                                                <span className="icon-delete" style={{ color: '#F44336', fontSize: '20px' }} />
                                             </IconButton> */}
                                         </Box>
                                     </TableCell>

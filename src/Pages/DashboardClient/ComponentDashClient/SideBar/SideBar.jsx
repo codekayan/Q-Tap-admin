@@ -17,12 +17,12 @@ const Arr1 = [
     },
 
     {
-        text: "Orders", icon: <span class="icon-shopping-bag-1" style={{ fontSize: "13px" }} />,
+        text: "Orders", icon: <span className="icon-shopping-bag-1" style={{ fontSize: "13px" }} />,
         path: "/order"
     },
     {
         text: "Wallet",
-        icon: <span class="icon-wallet1" style={{ width: "34.539", height: "34.544" }}></span>,
+        icon: <span className="icon-wallet1" style={{ width: "34.539", height: "34.544" }}></span>,
         path: "/wallet-client",
     },
     {
@@ -32,7 +32,7 @@ const Arr1 = [
     },
     {
         text: "Support",
-        icon: <span class="icon-messenger" style={{ width: "34.539", height: "34.544" }}></span>,
+        icon: <span className="icon-messenger" style={{ width: "34.539", height: "34.544" }}></span>,
         path: "/support-client",
     },
     {
@@ -42,7 +42,7 @@ const Arr1 = [
     },
     {
         text: "Customers Log",
-        icon: <span class="icon-show"></span>,
+        icon: <span className="icon-show"></span>,
         path: "/customers-log",
     },
     {

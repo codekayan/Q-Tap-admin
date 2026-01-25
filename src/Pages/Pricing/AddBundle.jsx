@@ -104,7 +104,7 @@ const AddBundle = ({ open, onClose, editData = null, refetch }) => {
                             {t("newBundle")}
                         </Typography>
                         <IconButton onClick={onClose} >
-                            <span class="icon-close-1" style={{ fontSize: "15px" }}></span>
+                            <span className="icon-close-1" style={{ fontSize: "15px" }}></span>
                         </IconButton>
                     </Box>
                     <Divider />

@@ -68,7 +68,7 @@ const FeedbackDetailsModal = ({ open, handleClose, pageId }) => {
                             <span className="icon-printer" style={{ fontSize: "18px" }}></span>
                         </IconButton>
                         <IconButton onClick={handleClose} >
-                            <span class="icon-close-1" style={{ fontSize: "15px" }}></span>
+                            <span className="icon-close-1" style={{ fontSize: "15px" }}></span>
                         </IconButton>
                     </Box>
                 </Box>

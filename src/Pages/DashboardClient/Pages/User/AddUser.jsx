@@ -12,11 +12,11 @@ import { selectSelectedBranch } from '../../../../store/client/clientAdmin';
 
 const iconsArray = [
     { name: 'Dashboard', icon: <img src="/assets/dashboard.svg" alt="icon" style={{ width: "16px", height: "16px" }} /> },
-    { name: 'Support', icon: <span class="icon-messenger" style={{ width: "34.539", height: "34.544" }}></span> },
-    { name: 'Orders', icon: <span class="icon-shopping-bag" style={{ width: "34.539", height: "34.544" }}></span> },
+    { name: 'Support', icon: <span className="icon-messenger" style={{ width: "34.539", height: "34.544" }}></span> },
+    { name: 'Orders', icon: <span className="icon-shopping-bag" style={{ width: "34.539", height: "34.544" }}></span> },
     { name: 'Users', icon: <PersonOutlineOutlinedIcon sx={{ fontSize: "18px", color: "gray" }} /> },
-    { name: 'Wallet', icon: <span class="icon-wallet1" style={{ width: "34.539", height: "34.544" }}></span> },
-    { name: 'Customers Log', icon: <span class="icon-show"></span> },
+    { name: 'Wallet', icon: <span className="icon-wallet1" style={{ width: "34.539", height: "34.544" }}></span> },
+    { name: 'Customers Log', icon: <span className="icon-show"></span> },
     { name: 'Menu', icon: <img src="/assets/menu.svg" alt="menu icon" style={{ width: "17px", height: "17px" }} /> },
     { name: 'Setting', icon: <img src="/assets/setting.svg" alt="icon" style={{ width: "16px", height: "16px" }} /> },
 ];

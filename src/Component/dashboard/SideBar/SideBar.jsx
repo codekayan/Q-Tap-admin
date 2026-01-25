@@ -35,28 +35,28 @@ export default function SideBar({ isOpen, handleToggleSideBar }) {
         },
         {
             text: t("wallet"),
-            icon: <span class="icon-wallet1" style={{ width: "34.539", height: "34.544" }}></span>,
+            icon: <span className="icon-wallet1" style={{ width: "34.539", height: "34.544" }}></span>,
             path: "/wallet",
         },
 
         {
             text: t("product"),
-            icon: <span class="icon-shopping-bag" style={{ width: "34.539", height: "34.544" }}></span>,
+            icon: <span className="icon-shopping-bag" style={{ width: "34.539", height: "34.544" }}></span>,
             path: "/product-admin",
         },
         {
             text: t("support"),
-            icon: <span class="icon-messenger" style={{ width: "34.539", height: "34.544" }}></span>,
+            icon: <span className="icon-messenger" style={{ width: "34.539", height: "34.544" }}></span>,
             path: "/support",
         },
         {
             text: t("pricing"),
-            icon: <span class="icon-price-tag" style={{ width: "34.539", height: "34.544" }}></span>,
+            icon: <span className="icon-price-tag" style={{ width: "34.539", height: "34.544" }}></span>,
             path: "/pricing",
         },
         {
             text: t("affiliate"),
-            icon: <span class="icon-social" style={{ width: "35", height: "35" }}></span>,
+            icon: <span className="icon-social" style={{ width: "35", height: "35" }}></span>,
             path: "/affiliate",
         },
 
@@ -67,7 +67,7 @@ export default function SideBar({ isOpen, handleToggleSideBar }) {
         },
         {
             text: t("notification"),
-            icon: <span class="icon-bell" style={{ width: "34.539", height: "34.544" }}></span>,
+            icon: <span className="icon-bell" style={{ width: "34.539", height: "34.544" }}></span>,
             path: "/notification",
         },
         {

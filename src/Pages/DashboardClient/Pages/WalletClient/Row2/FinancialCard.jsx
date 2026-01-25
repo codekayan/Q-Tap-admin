@@ -58,7 +58,7 @@ const Financial = ({
                 style={{ width: "100px", height: "27px", marginRight: "10px" }}
               />
               <span
-                class="icon-share"
+                className="icon-share"
                 style={{ fontSize: "23px", color: theme.palette.orangePrimary.main }}
               ></span>
               <Box></Box>

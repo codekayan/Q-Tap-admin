@@ -27,7 +27,7 @@ export const Transaction = () => {
           <CardContent>
             <Box sx={{ display: "flex", textAlign: "center", alignItems: "center", justifyContent: "space-between" }}>
             <img src='/assets/paymob.svg' alt='paymob' style={{width:"150px" ,height:"40px",marginBottom:"10px"}} />
-              <span class="icon-share" style={{ fontSize: "30px" }} />
+              <span className="icon-share" style={{ fontSize: "30px" }} />
             </Box>
 
             

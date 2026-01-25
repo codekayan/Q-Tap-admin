@@ -222,9 +222,10 @@ export const selectSelectedBranch = (state) => state.clientLogin.info.selectedBr
 export const selectBranch = (index) => (state) => {
     return state.clientLogin?.info?.data?.qtap_clients?.brunchs?.[index] || null;
 };
-export const selectAllBranch = (index) => (state) => {
-    return state.clientLogin?.info?.data?.qtap_clients?.brunchs ?? [];
-}
+
+export const selectAllBranch = (state) => 
+    state.clientLogin?.info?.data?.qtap_clients?.brunchs ?? [];
+
 export const selectBranchById = (branchId) => (state) => {
     return state.clientLogin?.info?.data?.qtap_clients?.brunchs?.find(
         (branch) => branch.id === branchId

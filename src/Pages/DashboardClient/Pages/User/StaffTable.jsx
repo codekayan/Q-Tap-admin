@@ -125,7 +125,7 @@ export const StaffTable = ({ userStaff }) => {
                 padding="5px 0"
             >
                 <Box sx={{ display: "flex", alignItem: "center" }}>
-                    <span class="icon-manager" style={{ fontSize: "25px", color: "#D8E0E0", marginRight: "10px" }}></span>
+                    <span className="icon-manager" style={{ fontSize: "25px", color: "#D8E0E0", marginRight: "10px" }}></span>
                     <Typography variant='body1' sx={{ fontSize: "16px", color: theme.palette.text.gray }}>Staff</Typography>
                 </Box>
 
@@ -248,7 +248,7 @@ export const StaffTable = ({ userStaff }) => {
 
                             <TableCell sx={{ padding: "0px 2px", width: `${100 / 5}%`, textAlign: "left", borderBottom: "none" }}>
                                 <IconButton onClick={() => handleDeleteRestStaff(row.id)}>
-                                    <span class="icon-delete" style={{ fontSize: "17px", color: theme.palette.text.gray_light }} />
+                                    <span className="icon-delete" style={{ fontSize: "17px", color: theme.palette.text.gray_light }} />
                                 </IconButton>
                                 <IconButton >
                                     <Settings style={{ fontSize: "17px", color: theme.palette.text.gray_light }} />

@@ -62,7 +62,7 @@ export default function TopBar() {
     const [mode, setMode] = useState('light');
     const [branch, setBranch] = useState(null);
     const lang = localStorage.getItem("i18nextLng")
-    const branches = useSelector(selectAllBranch(0))
+    const branches = useSelector(selectAllBranch)
     // Load branches and selected branch from localStorage on component mount
     const selectedBranch = localStorage.getItem("selectedBranch")
 

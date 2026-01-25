@@ -17,7 +17,7 @@ const Arr1 = [
 
     {
         text: "Wallet",
-        icon: <span class="icon-wallet1" style={{ width: "34.539", height: "34.544" }}></span>,
+        icon: <span className="icon-wallet1" style={{ width: "34.539", height: "34.544" }}></span>,
         path: "/wallet-affiliate"
     },
 ];
