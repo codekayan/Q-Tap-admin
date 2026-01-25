@@ -40,49 +40,51 @@ const PhoneField = ({ phone, setPhone, setCountryCode, countryCode, isRounded = 
 
     return (<>
         <div className="space-y-2">
-            {/* <Label>Phone Number</Label> */}
-            <div className="flex gap-2  mt-2">
-                <Select value={countryCode} onValueChange={setCountryCode} className="" >
-                    <SelectTrigger
-                        style={{
-                            '--border-color': theme.palette.action.disabled,
-                            '--hover-border-color': theme.palette.text.primary
-                        }}
-                        className={`${isRounded ? "rounded-[9999px]" : ""} border border-[var(--border-color)] hover:border-[var(--hover-border-color)] w-[110px]  focus:ring-2 focus:ring-primary focus:outline-none`}
-                    >
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent
-                        className="max-h-60 overflow-y-auto"
-                        style={{
-                            borderColor: theme.palette.divider,
-                            backgroundColor: theme.palette.background.paper,
-                            color: theme.palette.text.primary,
-                        }}
-                    >
-                        {COUNTRIES_CODES.map((c) => (
-                            <SelectItem key={c.code} value={c.label}>
-                                {c.label} {c.code}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                <div className="relative  w-full">
-                    <PhoneOutlinedIcon sx={{ fontSize: "18px" }} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                        type="tel"
-                        style={{
-                            '--border-color': theme.palette.action.disabled,
-                            '--hover-border-color': theme.palette.text.primary
-                        }}
-                        className={`${isRounded ? "rounded-[9999px]" : ""} pl-10 border border-[var(--border-color)] hover:border-[var(--hover-border-color)] focus:ring-primary focus:border-primary`}
-                        placeholder="123 456 789"
-                        value={phone}
-                        onChange={handlePhoneChange}
-                        onBlur={validatePhone}
-                    />
+            {/* Combined Phone with Country Code on Left */}
+            <div className="relative w-full mt-2">
+                <div className="flex items-center absolute left-3 top-1/2 -translate-y-1/2 gap-1 z-10 pointer-events-none">
+                    <PhoneOutlinedIcon sx={{ fontSize: "18px" }} className="text-muted-foreground" />
+                    <span style={{ color: "#999", fontSize: "12px" }}>|</span>
                 </div>
-
+                <div className="absolute left-14 top-1/2 -translate-y-1/2 pointer-events-auto">
+                    <Select value={countryCode} onValueChange={setCountryCode} className="">
+                        <SelectTrigger
+                            style={{
+                                '--border-color': 'transparent',
+                                '--hover-border-color': 'transparent'
+                            }}
+                            className="border-0 outline-none focus:outline-none bg-transparent focus:ring-0"
+                        >
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent
+                            className="max-h-60 overflow-y-auto"
+                            style={{
+                                borderColor: theme.palette.divider,
+                                backgroundColor: theme.palette.background.paper,
+                                color: theme.palette.text.primary,
+                            }}
+                        >
+                            {COUNTRIES_CODES.map((c) => (
+                                <SelectItem key={c.code} value={c.label} className="text-xs">
+                                    {c.code}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <Input
+                    type="tel"
+                    style={{
+                        '--border-color': theme.palette.action.disabled,
+                        '--hover-border-color': theme.palette.text.primary
+                    }}
+                    className={`${isRounded ? "rounded-[9999px]" : ""} pl-40 border border-[var(--border-color)] hover:border-[var(--hover-border-color)] focus:ring-primary focus:border-primary`}
+                    placeholder="123 456 789"
+                    value={phone}
+                    onChange={handlePhoneChange}
+                    onBlur={validatePhone}
+                />
             </div>
             {error && <p className="text-sm text-red-500">{t(`validation.${error}`)}</p>}
         </div>

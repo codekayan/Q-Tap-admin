@@ -47,7 +47,6 @@ const SignUp = () => {
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [year, setYear] = useState("");
-  const [country, setCountry] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -95,10 +94,7 @@ const SignUp = () => {
       setApiError(t("BirthDateFieldMustBeValid"));
       return;
     }
-    if (!country) {
-      setApiError(t("countryFieldIsRequired"));
-      return;
-    }
+
 
     // if (!user_type) {
     //     setApiError(t("userTypeRequired"));
@@ -117,7 +113,6 @@ const SignUp = () => {
       month,
       day,
       year,
-      country,
       password,
       confirmPassword,
       user_type: "qtap_clients",
@@ -369,48 +364,7 @@ const SignUp = () => {
         </Grid>
       </Grid>
 
-      <FormControl variant="outlined" fullWidth>
-        <Select
-          id="outlined-country"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          displayEmpty
-          sx={{
-            borderRadius: "50px",
-            marginTop: "10px",
-            height: "33px",
-            fontSize: "10px",
-            "& .MuiSelect-icon": {
-              right: 7,
-              left: "auto",
-            },
-            '[dir="rtl"] & .MuiSelect-icon': {
-              left: 7,
-              right: "auto",
-            },
-          }}
-          startAdornment={
-            <InputAdornment position="start">
-              <span class="icon-map" style={{ fontSize: "14px" }}></span>
-            </InputAdornment>
-          }
-        >
-          <MenuItem value="" disabled>
-            {t("country")}
-          </MenuItem>
-          {(governorates || []).map((governorate) => (
-            <MenuItem
-              key={governorate.id}
-              value={governorate.id + ""}
-              sx={{ fontSize: "10px" }}
-            >
-              {i18n.language === "ar"
-                ? governorate.name_ar
-                : governorate.name_en}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+
       <FormControl variant="outlined" fullWidth>
         <OutlinedInput
           id="outlined-password"
