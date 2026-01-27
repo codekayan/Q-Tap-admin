@@ -79,21 +79,54 @@ export const AddItem = () => {
 
     // Fetch item data when editing
     useEffect(() => {
-        if (itemId) {
+        if (itemId && selectedBranch) {
             const fetchItem = async () => {
                 try {
                     setLoading(true); // Set loading to true while fetching
-                    const response = await axios.get(
-                        `${BASE_URL}meals`,
-                        {
-                            params: { brunch_id: selectedBranch },
-                            headers: {
-                                Authorization: `Bearer ${localStorage.getItem("Token")}`,
-                            },
-                        }
-                    );
-                    const meal = response.data;
-                    const item = meal.find((item) => item.id === parseInt(itemId));
+                    console.log("Fetching item ID:", itemId, "for brunch_id:", selectedBranch); // debug log
+                    
+                    // Try fetching specific meal first
+                    let response;
+                    try {
+                        response = await axios.get(
+                            `${BASE_URL}meals/${itemId}`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${localStorage.getItem("Token")}`,
+                                },
+                            }
+                        );
+                        console.log("Direct meal fetch response:", response.data); // debug log
+                    } catch (specificError) {
+                        // If specific meal fetch fails, try fetching all meals
+                        console.log("Specific meal fetch failed, trying to fetch all meals", specificError.status);
+                        response = await axios.get(
+                            `${BASE_URL}meals`,
+                            {
+                                params: { 
+                                    brunch_id: selectedBranch,
+                                    category_id: categoryId
+                                },
+                                headers: {
+                                    Authorization: `Bearer ${localStorage.getItem("Token")}`,
+                                },
+                            }
+                        );
+                        console.log("All meals response:", response.data); // debug log
+                    }
+                    
+                    // Handle response
+                    let item = response.data;
+                    
+                    // If response is a list, find the item
+                    if (Array.isArray(response.data)) {
+                        item = response.data.find((i) => i.id === parseInt(itemId));
+                    } else if (response.data.meals && Array.isArray(response.data.meals)) {
+                        item = response.data.meals.find((i) => i.id === parseInt(itemId));
+                    } else if (response.data.data && Array.isArray(response.data.data)) {
+                        item = response.data.data.find((i) => i.id === parseInt(itemId));
+                    }
+                    
                     if (!item) {
                         toast.error(t("itemNotFound"));
                         setDataLoaded(true); // Allow rendering even if item not found
@@ -122,7 +155,7 @@ export const AddItem = () => {
                     setDataLoaded(true); // Data is fully loaded
                 } catch (error) {
                     toast.error(t("errorOccurred"));
-                    console.error("Error fetching item:", error);
+                    console.error("Error fetching item:", error?.response?.data || error.message);
                     setDataLoaded(true); // Allow rendering to show error state
                 } finally {
                     setLoading(false); // Stop loading

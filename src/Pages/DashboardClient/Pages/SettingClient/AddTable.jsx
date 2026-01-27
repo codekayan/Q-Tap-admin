@@ -13,6 +13,7 @@ import {
   MenuItem,
   useTheme,
 } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import CloseIcon from '@mui/icons-material/Close';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import AddAreaModal from './AddAreaModal';
@@ -29,6 +30,7 @@ const AddTableModal = ({ open, onClose, tableData }) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const selectedBranch = localStorage.getItem('selectedBranch');
+  const queryClient = useQueryClient();
 
   const dispatch = useDispatch() //
   const areaData = useSelector(selectAreaData)
@@ -93,6 +95,10 @@ const AddTableModal = ({ open, onClose, tableData }) => {
           // Use response.data.table for update, not response.data.tables
           dispatch(updateTable(response.data.table));
         }
+        // Invalidate the tables query to refetch data
+        queryClient.invalidateQueries({ 
+          queryKey: ["tables", selectedBranch] 
+        });
         onClose();
       }
     } catch (error) {
