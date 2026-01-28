@@ -47,6 +47,7 @@ export const OrderHistory = () => {
 
                         }
                     )
+                    console.log(res)
                 
                 const parsedOrder = res.data.orders.map((item)=>parseResponseOrderItem(item))
                 setOrdera(parsedOrder)

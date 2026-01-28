@@ -41,12 +41,14 @@ export const OrderBody = () => {
 
 
     useEffect(() => {
+                        const selectedBranch = localStorage.getItem('selectedBranch')
+
         const loginclient = JSON.parse(localStorage.getItem('UserData'))
         setClient(loginclient)
         const handleClient = async () => {
             try {
 
-                const res = await axios.get(`${BASE_URL}${orderEndPoint[loginclient.user.role].fetch[0]}`,
+                    const res = await axios.get(`${BASE_URL}orders/${selectedBranch}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
@@ -55,6 +57,7 @@ export const OrderBody = () => {
 
                     }
                 )
+                console.log(res)
 
 
                 // each request has its response data :
