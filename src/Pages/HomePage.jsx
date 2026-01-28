@@ -14,15 +14,27 @@ export const HomePage = () => {
   const theme = useTheme();
   const hasChecked = useRef(false);
 
-  // Check if user is already logged in using same logic as ProtectedRouteClient
-  const isAlreadyAuthenticated = () => {
+  // Get redirect path based on user role
+  const getRedirectPath = (user) => {
+    if (!user || user.user_type !== "qtap_clients") return null;
+    
+    // Admin goes to dashboard, others go to order-body
+    if (user.role === "admin") {
+      return "/dashboard-client";
+    }
+    // Cashier, waiter, chef, kitchen staff go to order-body
+    return "/order-body";
+  };
+
+  // Check if user is already logged in
+  const getStoredUser = () => {
     try {
       const userDataString = localStorage.getItem('UserData');
-      if (!userDataString) return false;
+      if (!userDataString) return null;
       const userData = JSON.parse(userDataString);
-      return userData?.user?.user_type === "qtap_clients" && userData?.user?.role === "admin";
+      return userData?.user;
     } catch {
-      return false;
+      return null;
     }
   };
 
@@ -31,9 +43,12 @@ export const HomePage = () => {
     if (hasChecked.current) return;
     hasChecked.current = true;
 
-    // If already authenticated with valid UserData, go to dashboard
-    if (isAlreadyAuthenticated()) {
-      navigate("/dashboard-client", { replace: true });
+    // Check if already logged in from localStorage
+    const storedUser = getStoredUser();
+    const redirectPath = getRedirectPath(storedUser);
+    
+    if (redirectPath) {
+      navigate(redirectPath, { replace: true });
       return;
     }
 
@@ -42,9 +57,14 @@ export const HomePage = () => {
       try {
         const res = await getUserDataFromCookies();
         if (res?.data?.authenticated && res?.data?.user) {
+          const user = res.data.user;
           // Save to UserData (same key as ProtectedRouteClient checks)
-          localStorage.setItem('UserData', JSON.stringify({ user: res.data.user }));
-          navigate("/dashboard-client", { replace: true });
+          localStorage.setItem('UserData', JSON.stringify({ user }));
+          
+          const path = getRedirectPath(user);
+          if (path) {
+            navigate(path, { replace: true });
+          }
         }
       } catch {
         // Clear any stale data
