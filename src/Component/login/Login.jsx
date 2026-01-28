@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Button,
   Box,
@@ -26,20 +26,19 @@ export const Login = () => {
   const [apiError, setApiError] = useState('');
   const [apiSuccess, setApiSuccess] = useState('');
   const { t } = useTranslation();
+  const hasInitialized = useRef(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
+    
     const storedRedirectBack = sessionStorage.getItem('redirectBack');
     if (!storedRedirectBack) {
       const urlParams = new URLSearchParams(window.location.search);
       const redirectBack = urlParams.get('redirectBack');
       if (redirectBack) {
         sessionStorage.setItem('redirectBack', redirectBack);
-        console.log('redirectBack stored:', redirectBack);
-      } else {
-        console.log('No redirectBack found in URL');
       }
-    } else {
-      console.log('Using existing redirectBack:', storedRedirectBack);
     }
   }, []);
   const handleSubmit = async () => {

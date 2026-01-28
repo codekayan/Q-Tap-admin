@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { SignUpPage } from "./signup/SignUPage";
 import { LoginPage } from "./login/LoginPage";
@@ -8,6 +8,7 @@ import { BASE_URL } from "../utils/constants";
 
 const QtapHome = () => {
   const searchParams = new URLSearchParams(window.location.search);
+  const hasInitialized = useRef(false);
 
   const [selectedTab, setSelectedTab] = useState(() => {
     if (searchParams.get("signUp") === "true") return "signup";
@@ -19,9 +20,11 @@ const QtapHome = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
+
     const params = new URLSearchParams(window.location.search);
     if (params.has("affiliate_code")) {
-      console.log("send click");
       const code = params.get("affiliate_code");
       sessionStorage.setItem("affiliate_code", code);
       setSelectedTab("signup");
@@ -29,20 +32,16 @@ const QtapHome = () => {
       // Check if we already reported this affiliate click
       const clickKey = `affiliate_clicked_${code}`;
       if (!sessionStorage.getItem(clickKey)) {
-        console.log("useeffect api");
-
         // Call API to increase count
         axios
           .get(`${BASE_URL}home_affiliate/${code}`)
-          .then((res) => {
+          .then(() => {
             sessionStorage.setItem(clickKey, "true"); // Mark as reported
           })
-          .catch((err) => {
-            console.error("Failed to report affiliate click:", err);
+          .catch(() => {
+            // silently fail
           });
       }
-    } else {
-      console.log("dont save affiliate code");
     }
   }, []);
 
