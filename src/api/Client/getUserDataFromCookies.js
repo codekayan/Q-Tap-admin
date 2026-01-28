@@ -5,7 +5,7 @@ export const getUserDataFromCookies = async () => {
     
     try {
         const res = await axios.get(`${BASE_URL}checkCookies`, {
-            // withCredentials: true
+             withCredentials: true
         })
         return res
     } catch (error) {
