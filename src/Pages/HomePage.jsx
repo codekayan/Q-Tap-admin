@@ -5,44 +5,55 @@ import { Box, Grid, useTheme } from "@mui/material";
 
 import Language from "../Component/dashboard/TopBar/Language";
 import { getUserDataFromCookies } from "../api/Client/getUserDataFromCookies";
-import { useAuthStore } from "../store/zustand-store/authStore";
 import { useNavigate } from "react-router";
 import SupportChat from "../Component/chat/SupportChat";
 
 export const HomePage = () => {
   const [selectedTab, setSelectedTab] = useState("login");
   const navigate = useNavigate();
-  const { isAuthenticated, login, logout } = useAuthStore();
   const theme = useTheme();
   const hasChecked = useRef(false);
+
+  // Check if user is already logged in using same logic as ProtectedRouteClient
+  const isAlreadyAuthenticated = () => {
+    try {
+      const userDataString = localStorage.getItem('UserData');
+      if (!userDataString) return false;
+      const userData = JSON.parse(userDataString);
+      return userData?.user?.user_type === "qtap_clients" && userData?.user?.role === "admin";
+    } catch {
+      return false;
+    }
+  };
 
   useEffect(() => {
     // Prevent multiple checks
     if (hasChecked.current) return;
     hasChecked.current = true;
 
+    // If already authenticated with valid UserData, go to dashboard
+    if (isAlreadyAuthenticated()) {
+      navigate("/dashboard-client", { replace: true });
+      return;
+    }
+
+    // Otherwise check cookies API
     const checkLogin = async () => {
       try {
         const res = await getUserDataFromCookies();
-        // If API says authenticated and has user, update store and navigate
         if (res?.data?.authenticated && res?.data?.user) {
-          login(null, res.data.user, null);
+          // Save to UserData (same key as ProtectedRouteClient checks)
+          localStorage.setItem('UserData', JSON.stringify({ user: res.data.user }));
           navigate("/dashboard-client", { replace: true });
         }
-      } catch (error) {
-        // If API fails, clear any stale auth
-        logout();
+      } catch {
+        // Clear any stale data
+        localStorage.removeItem('UserData');
       }
     };
 
-    // Only check cookies if not already authenticated in store
-    if (!isAuthenticated) {
-      checkLogin();
-    } else {
-      // Already authenticated from localStorage, go to dashboard
-      navigate("/dashboard-client", { replace: true });
-    }
-  }, []);
+    checkLogin();
+  }, [navigate]);
 
   return (
     <Box
