@@ -12,7 +12,7 @@ import SupportChat from "../Component/chat/SupportChat";
 export const HomePage = () => {
   const [selectedTab, setSelectedTab] = useState("login");
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, login, logout } = useAuthStore();
   const theme = useTheme();
   const hasChecked = useRef(false);
 
@@ -23,21 +23,26 @@ export const HomePage = () => {
 
     const checkLogin = async () => {
       try {
-        await getUserDataFromCookies();
+        const res = await getUserDataFromCookies();
+        // If API says authenticated and has user, update store and navigate
+        if (res?.data?.authenticated && res?.data?.user) {
+          login(null, res.data.user, null);
+          navigate("/dashboard-client", { replace: true });
+        }
       } catch (error) {
-        // silently handle
+        // If API fails, clear any stale auth
+        logout();
       }
     };
 
-    checkLogin();
-  }, []);
-
-  // Separate effect for navigation - only runs when isAuthenticated changes
-  useEffect(() => {
-    if (isAuthenticated) {
+    // Only check cookies if not already authenticated in store
+    if (!isAuthenticated) {
+      checkLogin();
+    } else {
+      // Already authenticated from localStorage, go to dashboard
       navigate("/dashboard-client", { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, []);
 
   return (
     <Box
