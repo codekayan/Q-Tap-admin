@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import QtapLogo from "../Component/QtapLogo";
 import QtapHome from "../Component/QtapHome";
 import { Box, Grid, useTheme } from "@mui/material";
@@ -14,23 +14,30 @@ export const HomePage = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
   const theme = useTheme();
-
-  const checkLogin = async () => {
-    try {
-      const res = await getUserDataFromCookies();
-      console.log("check user login :::::", res);
-    } catch (error) {
-      console.log("check user login :::::", error);
-    }
-  };
+  const hasChecked = useRef(false);
 
   useEffect(() => {
+    // Prevent multiple checks
+    if (hasChecked.current) return;
+    hasChecked.current = true;
+
+    const checkLogin = async () => {
+      try {
+        await getUserDataFromCookies();
+      } catch (error) {
+        // silently handle
+      }
+    };
+
     checkLogin();
-    if (isAuthenticated) {
-      // navigate to client if auth
-      navigate("/dashboard-client");
-    }
   }, []);
+
+  // Separate effect for navigation - only runs when isAuthenticated changes
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard-client", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <Box
